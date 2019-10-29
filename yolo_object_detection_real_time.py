@@ -12,7 +12,7 @@ layer_names = net.getLayerNames()
 output_layers = [layer_names[i[0]-1] for i in net.getUnconnectedOutLayers()]
 
 # Loading image
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(1)
 while True:
     _, frame = cap.read()
 
@@ -20,7 +20,7 @@ while True:
     height, width, channels = frame.shape
 
     # Detecting objects
-    blob = cv2.dnn.blobFromImage(frame, 0.00392, (320, 320), (0, 0, 0), True)
+    blob = cv2.dnn.blobFromImage(frame, 0.00392, (416, 416), (0, 0, 0), True)
 
     net.setInput(blob)
     outs = net.forward(output_layers)
@@ -55,10 +55,10 @@ while True:
         if i in indexes:
             x, y, w, h = boxes[i]
             label = classes[class_ids[i]]
-            if label == "cell phone":
-                color = colors[i]
-                cv2.rectangle(frame, (x, y), (x+w, y+h), color, 2)
-                cv2.putText(frame, label, (x,y+30), font, 1, (0,0,0), 3)
+            
+            color = colors[i]
+            cv2.rectangle(frame, (x, y), (x+w, y+h), color, 2)
+            cv2.putText(frame, label, (x,y+30), font, 1, (0,0,0), 3)
 
 
 
